@@ -5,59 +5,37 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     public function run(): void
     {
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-
-        $permissions = [
-            // products
-            'products.view','products.create','products.update','products.delete',
-
-            // media
-            'media.upload','media.update','media.delete',
-
-            // designs
-            'designs.view','designs.create','designs.update','designs.delete','designs.approve',
-
-            // orders
-            'orders.view','orders.update_status','orders.cancel','orders.refund','orders.export',
-
-            // customers
-            'customers.view','customers.update','customers.block',
-
-            // admin
-            'roles.manage','settings.manage',
+        // Permissions
+        $perms = [
+            'manage products',
+            'manage categories',
+            'manage media',        // bannery/obrázky
+            'manage customers',    // upravovať zákazníkov
+            'view stats',
+            'manage users',        // iba admin
+            'manage settings',     // iba admin
+            'moderate reviews',
         ];
 
-        foreach ($permissions as $p) {
+        foreach ($perms as $p) {
             Permission::firstOrCreate(['name' => $p]);
         }
 
-        $user = Role::firstOrCreate(['name' => 'user']);
-        $grafik = Role::firstOrCreate(['name' => 'grafik']);
-        $zamestnanec = Role::firstOrCreate(['name' => 'zamestnanec']);
-        $admin = Role::firstOrCreate(['name' => 'admin']);
+        // Roles
+        $customer  = Role::firstOrCreate(['name' => 'customer']);
+        $designer  = Role::firstOrCreate(['name' => 'designer']);
+        $employee  = Role::firstOrCreate(['name' => 'employee']);
+        $admin     = Role::firstOrCreate(['name' => 'admin']);
 
-        $user->givePermissionTo([
-            'products.view',
-        ]);
-
-        $grafik->givePermissionTo([
-            'designs.view','designs.create','designs.update','designs.delete',
-            'media.upload','media.update',
-            'products.view',
-        ]);
-
-        $zamestnanec->givePermissionTo([
-            'orders.view','orders.update_status','orders.cancel','orders.export',
-            'customers.view','customers.update',
-            'products.view',
-        ]);
-
-        $admin->givePermissionTo(Permission::all());
+        // Assign permissions
+        $designer->syncPermissions(['manage media', 'manage products', 'manage categories']);
+        $employee->syncPermissions(['manage products', 'manage categories', 'manage customers', 'view stats', 'moderate reviews']);
+        $admin->syncPermissions(Permission::all()); // full access
     }
 }
+
