@@ -2,10 +2,7 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
         <div class="grid gap-8 md:grid-cols-3 text-sm text-gray-600">
             <div>
-                <div class="font-semibold text-gray-900">Eshop</div>
-                <p class="mt-2">
-                    Originálne dizajny na oblečenie a úpravy na mieru.
-                </p>
+                <div class="font-semibold text-gray-900">Triumf tools s.r.o.</div>
             </div>
 
             <div>

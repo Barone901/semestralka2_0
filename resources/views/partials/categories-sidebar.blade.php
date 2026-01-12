@@ -5,8 +5,8 @@
         @foreach($categories as $cat)
             <a href="{{ route('category.show', $cat->slug) }}"
                class="flex items-center justify-between rounded-xl px-3 py-2 text-sm hover:bg-gray-50
-                {{ request()->is('kategoria/'.$cat->slug) ? 'bg-gray-100 font-semibold' : '' }}">
-                <span>{{ $cat->nazov }}</span>
+               {{ request()->is('kategoria/'.$cat->slug) ? 'bg-gray-100 font-semibold' : '' }}">
+                <span>{{ $cat->name }}</span>
                 @if($cat->children->count()) <span class="text-gray-400">›</span> @endif
             </a>
 
@@ -15,8 +15,8 @@
                     @foreach($cat->children as $child)
                         <a href="{{ route('category.show', $child->slug) }}"
                            class="block rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50
-                      {{ request()->is('kategoria/'.$child->slug) ? 'bg-gray-100 font-semibold' : '' }}">
-                            {{ $child->nazov }}
+                           {{ request()->is('kategoria/'.$child->slug) ? 'bg-gray-100 font-semibold' : '' }}">
+                            {{ $child->name }}
                         </a>
                     @endforeach
                 </div>
