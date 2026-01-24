@@ -49,7 +49,7 @@
                     <div>
                         <h4 class="font-semibold text-gray-900">My addresses</h4>
 
-                        <p class="text-sm text-gray-500"Address management></p>
+                        <p class="text-sm text-gray-500" Address management></p>
                     </div>
                 </a>
 
