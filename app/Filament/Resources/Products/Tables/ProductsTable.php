@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ProductsTable
@@ -15,29 +16,47 @@ class ProductsTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image_url')
+                    ->label('Image')
+                    ->disk('public')
+                    ->circular(),
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->label('Name')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(30),
+                TextColumn::make('category.name')
+                    ->label('Category')
+                    ->searchable()
+                    ->sortable()
+                    ->badge(),
                 TextColumn::make('price')
-                    ->money()
+                    ->label('Price')
+                    ->money('EUR')
                     ->sortable(),
                 TextColumn::make('stock')
+                    ->label('Stock')
                     ->numeric()
-                    ->sortable(),
-                ImageColumn::make('image_url')
-                    ->disk('public'),
-                TextColumn::make('category.name')
-                    ->searchable(),
+                    ->sortable()
+                    ->color(fn ($state) => $state > 0 ? 'success' : 'danger'),
                 TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Created')
+                    ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->label('Edited')
+                    ->dateTime('d.m.Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                SelectFilter::make('category_id')
+                    ->label('Category')
+                    ->relationship('category', 'name')
+                    ->searchable()
+                    ->preload(),
             ])
             ->recordActions([
                 EditAction::make(),

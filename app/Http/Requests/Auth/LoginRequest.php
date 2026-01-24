@@ -27,8 +27,37 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:8'],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Email je povinný.',
+            'email.email' => 'Zadajte platnú emailovú adresu.',
+            'email.max' => 'Email môže mať maximálne 255 znakov.',
+            'password.required' => 'Heslo je povinné.',
+            'password.min' => 'Heslo musí mať minimálne 8 znakov.',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'email' => 'email',
+            'password' => 'heslo',
         ];
     }
 
@@ -45,7 +74,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Nesprávny email alebo heslo.',
             ]);
         }
 
@@ -68,10 +97,7 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'email' => "Príliš veľa pokusov o prihlásenie. Skúste to znova o {$seconds} sekúnd.",
         ]);
     }
 

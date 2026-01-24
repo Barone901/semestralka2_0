@@ -10,32 +10,33 @@ class RolesAndPermissionsSeeder extends Seeder
 {
     public function run(): void
     {
-        // Permissions
         $perms = [
             'manage products',
             'manage categories',
-            'manage media',        // bannery/obrázky
-            'manage customers',    // upravovať zákazníkov
+            'manage media',
+            'manage pages',
+            'manage customers',
+            'manage orders',
             'view stats',
-            'manage users',        // iba admin
-            'manage settings',     // iba admin
+            'manage users',
+            'manage settings',
             'moderate reviews',
         ];
 
         foreach ($perms as $p) {
-            Permission::firstOrCreate(['name' => $p]);
+            Permission::firstOrCreate(['name' => $p, 'guard_name' => 'web']);
         }
 
-        // Roles
-        $customer  = Role::firstOrCreate(['name' => 'customer']);
-        $designer  = Role::firstOrCreate(['name' => 'designer']);
-        $employee  = Role::firstOrCreate(['name' => 'employee']);
-        $admin     = Role::firstOrCreate(['name' => 'admin']);
+        $customer = Role::firstOrCreate(['name' => 'customer', 'guard_name' => 'web']);
+        $designer = Role::firstOrCreate(['name' => 'designer', 'guard_name' => 'web']);
+        $employee = Role::firstOrCreate(['name' => 'employee', 'guard_name' => 'web']);
+        $admin    = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
 
-        // Assign permissions
-        $designer->syncPermissions(['manage media', 'manage products', 'manage categories']);
-        $employee->syncPermissions(['manage products', 'manage categories', 'manage customers', 'view stats', 'moderate reviews']);
-        $admin->syncPermissions(Permission::all()); // full access
+        $designer->syncPermissions(['manage media', 'manage pages', 'manage products', 'manage categories']);
+        $employee->syncPermissions(['manage products', 'manage categories', 'manage customers', 'manage orders', 'view stats', 'moderate reviews']);
+        $admin->syncPermissions(Permission::all());
+
+        // customer typicky nemá nič (alebo len view vlastných vecí v app)
+        $customer->syncPermissions([]);
     }
 }
-

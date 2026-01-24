@@ -12,6 +12,7 @@ class DefaultLayout extends Component
      */
     public function __construct(
         public ?string $title = null,
+        public string $type = 'default',
     ) {}
 
     /**

@@ -1,27 +1,52 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Product;
+use App\Services\BannerService;
+use App\Services\CategoryService;
+use App\Services\ProductService;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
-    public function show(Category $category)
+    /**
+     * Inject služieb:
+     * - CategoryService: veci okolo kategórií (parents, children ids, ...)
+     * - ProductService: filtrovanie produktov
+     * - BannerService: bannery do layoutu
+     */
+    public function __construct(
+        private CategoryService $categoryService,
+        private ProductService $productService,
+        private BannerService $bannerService
+    ) {}
+
+    /**
+     * Detail kategórie:
+     * - zobrazí produkty v danej kategórii + jej podkategóriách
+     * - podporuje vyhľadávanie (search)
+     *
+     * Pozn.: Category $category je route model binding.
+     */
+    public function show(Category $category, Request $request): View
     {
-        $categories = Category::whereNull('parent_id')
-            ->orderBy('sort_order')
-            ->with(['children' => fn ($q) => $q->orderBy('sort_order')])
-            ->get();
+        $categories = $this->categoryService->getParentCategories();
+        $banners = $this->bannerService->getActiveBanners();
 
-        // Ak klikneš na parent kategóriu, zobraz aj produkty z jej detí
-        $categoryIds = [$category->id, ...$category->children()->pluck('id')->all()];
+        // Získame ID kategórie + jej detí (aby produkty zahŕňali aj podkategórie)
+        $categoryIds = $this->categoryService->getCategoryWithChildrenIds($category);
 
-        $products = Product::with('category')
-            ->whereIn('category_id', $categoryIds)
-            ->latest()
-            ->paginate(12);
+        // Vyhľadávanie posielame do ProductService
+        $products = $this->productService->getProducts(
+            $request->get('search'),
+            $categoryIds
+        );
 
-        return view('pages.home', compact('categories', 'products', 'category'));
+        // Používaš rovnaký view ako homepage – to je OK, ak je layout jednotný.
+        return view('pages.home', compact('categories', 'products', 'category', 'banners'));
     }
 }

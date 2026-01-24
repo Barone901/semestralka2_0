@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -11,7 +13,8 @@ use Illuminate\Validation\Rules\Password;
 class PasswordController extends Controller
 {
     /**
-     * Update the user's password.
+     * Aktualizuje heslo prihláseného používateľa (z profilu).
+     * Používa error bag "updatePassword" – to sedí na Breeze partials.
      */
     public function update(Request $request): RedirectResponse
     {
@@ -21,7 +24,7 @@ class PasswordController extends Controller
         ]);
 
         $request->user()->update([
-            'password' => Hash::make($validated['password']),
+            'password' => Hash::make((string) $validated['password']),
         ]);
 
         return back()->with('status', 'password-updated');

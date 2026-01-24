@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -12,7 +14,7 @@ use Illuminate\View\View;
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Display the login view.
+     * Zobrazí prihlasovaciu stránku (login form).
      */
     public function create(): View
     {
@@ -20,26 +22,30 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Handle an incoming authentication request.
+     * Spracuje prihlásenie:
+     * - overí údaje (LoginRequest->authenticate())
+     * - zregeneruje session (ochrana proti session fixation)
+     * - presmeruje na stránku, ktorú user chcel (intended), inak na dashboard
      */
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**
-     * Destroy an authenticated session.
+     * Odhlási používateľa:
+     * - logout
+     * - invalidácia session
+     * - nový CSRF token
      */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');
