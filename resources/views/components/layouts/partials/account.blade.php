@@ -4,7 +4,7 @@
         id="account-btn-bottom"
         class="inline-flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-white/90 hover:text-white hover:bg-white/10 transition"
     >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <svg class="w-5 h-5" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
         </svg>
@@ -17,7 +17,7 @@
             @endauth
         </span>
 
-        <svg id="account-arrow-bottom" class="w-4 h-4 opacity-80 transition-transform" fill="none"
+        <svg id="account-arrow-bottom" class="w-4 h-4 opacity-80 transition-transform""
              stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M19 9l-7 7-7-7"/>

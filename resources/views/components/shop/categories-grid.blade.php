@@ -21,15 +21,17 @@
 
 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5">
     @foreach($categories as $category)
+        @php($url = $imgUrl($category))
+
         <a
             href="{{ route('products.index', ['category' => $category->slug]) }}"
             class="group rounded-2xl border bg-white overflow-hidden hover:shadow-md transition-shadow"
         >
             <div class="aspect-[4/3] bg-gray-50 overflow-hidden">
-                @if($imgUrl($category))
+                @if($url)
                     <img
-                        src="{{ $imgUrl($category) }}"
-
+                        src="{{ $url }}"
+                        alt="{{ $category->name }}"
                         class="h-full w-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
                         loading="lazy"
                     >
@@ -49,7 +51,7 @@
                 <div class="mt-2 text-xs text-gray-600 flex items-center gap-2">
                     <span class="inline-flex items-center gap-1">
                         Zobraziť
-                        <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
                     </span>

@@ -66,7 +66,7 @@
                                     aria-label="Previous slide"
                                     class="banner-prev grid h-10 w-12 place-items-center hover:bg-black/5 transition"
                                 >
-                                    <svg class="h-5 w-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="h-5 w-5 text-gray-800" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                                     </svg>
                                 </button>
@@ -78,7 +78,7 @@
                                     aria-label="Next slide"
                                     class="banner-next grid h-10 w-12 place-items-center hover:bg-black/5 transition"
                                 >
-                                    <svg class="h-5 w-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="h-5 w-5 text-gray-800" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                     </svg>
                                 </button>
