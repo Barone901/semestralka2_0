@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
+/**
+ * Controller pre potvrdenie hesla pred citlivymi akciami.
+ */
 class ConfirmablePasswordController extends Controller
 {
     /**
-     * Zobrazí stránku "Potvrď heslo".
-     * (Používa sa pred citlivými akciami – napr. zmena emailu, zmazanie účtu…)
+     * Zobrazi stranku pre potvrdenie hesla.
      */
     public function show(): View
     {
@@ -23,10 +25,7 @@ class ConfirmablePasswordController extends Controller
     }
 
     /**
-     * Overí zadané heslo:
-     * - ak je zlé → validačná chyba
-     * - ak je OK → uloží čas potvrdenia do session
-     * - presmeruje na intended alebo dashboard
+     * Overi heslo a ulozi cas potvrdenia do session.
      */
     public function store(Request $request): RedirectResponse
     {

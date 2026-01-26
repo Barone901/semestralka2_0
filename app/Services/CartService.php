@@ -5,10 +5,13 @@ namespace App\Services;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 
+/**
+ * Sluzba pre pracu s nakupnym kosikom.
+ */
 class CartService
 {
     /**
-     * Získa obsah košíka.
+     * Ziska obsah kosika vratane vypocitanych hodnot.
      */
     public function getCart(): array
     {
@@ -46,7 +49,7 @@ class CartService
     }
 
     /**
-     * Pridá produkt do košíka.
+     * Prida produkt do kosika s kontrolou skladu.
      */
     public function addProduct(Product $product, int $quantity = 1): array
     {
@@ -81,7 +84,7 @@ class CartService
     }
 
     /**
-     * Aktualizuje množstvo produktu v košíku.
+     * Aktualizuje mnozstvo produktu v kosiku.
      */
     public function updateQuantity(int $productId, int $quantity): array
     {
@@ -116,7 +119,7 @@ class CartService
     }
 
     /**
-     * Odstráni produkt z košíka.
+     * Odstrani produkt z kosika.
      */
     public function removeProduct(int $productId): array
     {
@@ -134,7 +137,7 @@ class CartService
     }
 
     /**
-     * Vyprázdni košík.
+     * Vyprazdni cely kosik.
      */
     public function clear(): array
     {
@@ -147,7 +150,7 @@ class CartService
     }
 
     /**
-     * Formátuje cenu.
+     * Formatuje cenu s menovym symbolom.
      */
     private function formatPrice(float $price): string
     {

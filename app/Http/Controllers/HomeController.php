@@ -10,11 +10,13 @@ use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/**
+ * Controller pre hlavnu stranku eshopu.
+ */
 class HomeController extends Controller
 {
     /**
-     * Sem si injectuješ služby (Service layer).
-     * Výhoda: controller ostáva tenký a logika je v službách.
+     * Injektuje sluzby pre kategorie, produkty a bannery.
      */
     public function __construct(
         private CategoryService $categoryService,
@@ -23,18 +25,19 @@ class HomeController extends Controller
     ) {}
 
     /**
-     * Homepage:
-     * - načíta hlavné kategórie
-     * - načíta aktívne bannery
-     * - načíta produkty (prípadne filtrované searchom)
+     * Zobrazi hlavnu stranku s produktmi, kategoriami a bannermi.
      */
     public function index(Request $request): View
     {
+        // Server-side validacia search query
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+        ]);
+
         $categories = $this->categoryService->getParentCategories();
         $banners = $this->bannerService->getActiveBanners();
 
-        // Search parameter (ak existuje), posielame ho do service
-        $products = $this->productService->getProducts($request->get('search'));
+        $products = $this->productService->getProducts($validated['search'] ?? null);
 
         return view('pages.home', compact('categories', 'products', 'banners'));
     }

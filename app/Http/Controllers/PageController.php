@@ -7,15 +7,20 @@ namespace App\Http\Controllers;
 use App\Services\PageService;
 use Illuminate\View\View;
 
+/**
+ * Controller pre clanky a staticke stranky.
+ */
 class PageController extends Controller
 {
+    /**
+     * Injektuje sluzbu pre stranky.
+     */
     public function __construct(
         private PageService $pageService
     ) {}
 
     /**
-     * Zoznam publikovaných článkov/stránok.
-     * - service typicky filtruje status "published" + published_at <= now
+     * Zobrazi zoznam publikovanych clankov.
      */
     public function index(): View
     {
@@ -25,10 +30,7 @@ class PageController extends Controller
     }
 
     /**
-     * Detail článku podľa slug-u.
-     * - ak slug neexistuje → 404
-     * - zvýšime views_count
-     * - načítame related pages (podľa tvojej logiky v service)
+     * Zobrazi detail clanku podla slug a zvysi pocitadlo zobrazeni.
      */
     public function show(string $slug): View
     {
@@ -38,7 +40,6 @@ class PageController extends Controller
             abort(404);
         }
 
-        // Inkrementuj počet zobrazení
         $page->incrementViews();
 
         $relatedPages = $this->pageService->getRelatedPages($page);

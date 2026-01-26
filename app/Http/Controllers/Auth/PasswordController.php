@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
+/**
+ * Controller pre zmenu hesla prihlaseneho pouzivatela.
+ */
 class PasswordController extends Controller
 {
     /**
-     * Aktualizuje heslo prihláseného používateľa (z profilu).
-     * Používa error bag "updatePassword" – to sedí na Breeze partials.
+     * Aktualizuje heslo pouzivatela po overeni aktualneho hesla.
      */
     public function update(Request $request): RedirectResponse
     {

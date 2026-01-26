@@ -9,10 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * Model bannera pre homepage slider.
+ * Relacie: Page (N:1), Page (1:N)
+ */
 class Banner extends Model
 {
     /**
-     * Povolené polia na ukladanie bannera.
+     * Polia povolene pre hromadne priradenie.
      */
     protected $fillable = [
         'name',
@@ -23,13 +27,16 @@ class Banner extends Model
         'sort_order',
     ];
 
+    /**
+     * Pretypovanie atributov.
+     */
     protected $casts = [
         'is_active' => 'boolean',
         'sort_order' => 'integer',
     ];
 
     /**
-     * Banner môže ukazovať na konkrétnu stránku (page_id).
+     * Banner moze ukazovat na konkretnu stranku.
      */
     public function page(): BelongsTo
     {
@@ -37,8 +44,7 @@ class Banner extends Model
     }
 
     /**
-     * Ak máš v pages stĺpec banner_id, tak banner "má veľa" stránok.
-     * (Takto vieš zistiť, ktoré stránky používajú tento banner.)
+     * Banner ma viacero stranok ktore ho pouzivaju.
      */
     public function pages(): HasMany
     {
@@ -46,10 +52,7 @@ class Banner extends Model
     }
 
     /**
-     * Virtuálny atribút: finálny odkaz bannera.
-     * Priorita:
-     * 1) ak je vyplnený link_url -> použije sa
-     * 2) inak, ak je page_id -> vygeneruje sa route na stránku
+     * Vrati finalny odkaz bannera (link_url alebo route na stranku).
      */
     public function getLinkAttribute(): ?string
     {
@@ -65,7 +68,7 @@ class Banner extends Model
     }
 
     /**
-     * Scope: iba aktívne bannery.
+     * Scope: Iba aktivne bannery.
      */
     public function scopeActive(Builder $query): Builder
     {
@@ -73,7 +76,7 @@ class Banner extends Model
     }
 
     /**
-     * Scope: zoradenie bannerov podľa sort_order.
+     * Scope: Zoradenie podla sort_order.
      */
     public function scopeOrdered(Builder $query): Builder
     {
@@ -81,9 +84,7 @@ class Banner extends Model
     }
 
     /**
-     * Virtuálny atribút: vráti URL obrázka.
-     * - ak je to http, necháme
-     * - inak storage/
+     * Vrati URL obrazku bannera.
      */
     public function getImageUrlAttribute(): ?string
     {

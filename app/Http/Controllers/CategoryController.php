@@ -11,13 +11,13 @@ use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/**
+ * Controller pre pracu s kategoriami produktov.
+ */
 class CategoryController extends Controller
 {
     /**
-     * Inject služieb:
-     * - CategoryService: veci okolo kategórií (parents, children ids, ...)
-     * - ProductService: filtrovanie produktov
-     * - BannerService: bannery do layoutu
+     * Injektuje sluzby pre kategorie, produkty a bannery.
      */
     public function __construct(
         private CategoryService $categoryService,
@@ -26,14 +26,15 @@ class CategoryController extends Controller
     ) {}
 
     /**
-     * Detail kategórie:
-     * - zobrazí produkty v danej kategórii + jej podkategóriách
-     * - podporuje vyhľadávanie (search)
-     *
-     * Pozn.: Category $category je route model binding.
+     * Zobrazi detail kategorie s produktmi a podporou vyhladavania.
      */
     public function show(Category $category, Request $request): View
     {
+        // Server-side validácia search query
+        $validated = $request->validate([
+            'search' => ['nullable', 'string', 'max:255'],
+        ]);
+
         $categories = $this->categoryService->getParentCategories();
         $banners = $this->bannerService->getActiveBanners();
 
@@ -42,7 +43,7 @@ class CategoryController extends Controller
 
         // Vyhľadávanie posielame do ProductService
         $products = $this->productService->getProducts(
-            $request->get('search'),
+            $validated['search'] ?? null,
             $categoryIds
         );
 

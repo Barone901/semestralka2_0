@@ -10,19 +10,29 @@ use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * API Controller pre vyhladavanie a zobrazenie produktov.
+ */
 class ProductApiController extends Controller
 {
+    /**
+     * Injektuje sluzbu pre produkty.
+     */
     public function __construct(
         private readonly ProductService $productService
     ) {}
 
     /**
-     * GET /api/products/search?q=...
-     * Autocomplete / rýchle vyhľadávanie produktov (JSON).
+     * Vyhlada produkty podla zadaneho vyrazu pre autocomplete.
      */
     public function search(Request $request): JsonResponse
     {
-        $q = trim((string) $request->get('q', ''));
+        // Server-side validacia search query
+        $validated = $request->validate([
+            'q' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $q = trim($validated['q'] ?? '');
 
         $products = $this->productService
             ->search($q)
@@ -33,9 +43,7 @@ class ProductApiController extends Controller
     }
 
     /**
-     * GET /api/products/{product}
-     * Detail produktu pre AJAX modal (JSON).
-     * Pozn.: route model binding ti natiahne Product automaticky.
+     * Vrati detail produktu pre AJAX modal.
      */
     public function show(Product $product): JsonResponse
     {

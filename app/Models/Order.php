@@ -9,8 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * Model objednavky.
+ * Relacie: User (N:1), OrderItem (1:N), OrderAddress (1:N)
+ */
 class Order extends Model
 {
+    /**
+     * Polia povolene pre hromadne priradenie.
+     */
     protected $fillable = [
         'order_number',
         'user_id',
@@ -25,16 +32,23 @@ class Order extends Model
         'note',
     ];
 
+    /**
+     * Polia skryte pri serializacii.
+     */
     protected $hidden = [
         'guest_token',
     ];
 
+    /**
+     * Pretypovanie atributov.
+     */
     protected $casts = [
         'subtotal' => 'decimal:2',
         'shipping_cost' => 'decimal:2',
         'total' => 'decimal:2',
     ];
 
+    // Konstanty pre statusy objednavky
     public const STATUS_PENDING = 'pending';
     public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_PROCESSING = 'processing';
@@ -51,6 +65,7 @@ class Order extends Model
         self::STATUS_CANCELLED => 'Cancelled',
     ];
 
+    // Konstanty pre platobne statusy
     public const PAYMENT_PENDING = 'pending';
     public const PAYMENT_PAID = 'paid';
     public const PAYMENT_FAILED = 'failed';
@@ -61,12 +76,16 @@ class Order extends Model
         self::PAYMENT_FAILED => 'Failed',
     ];
 
+    // Konstanty pre platobne metody
     public const PAYMENT_COD = 'cod';
 
     public const PAYMENT_METHODS = [
         self::PAYMENT_COD => 'Cash on Delivery',
     ];
 
+    /**
+     * Vygeneruje unikatne cislo objednavky.
+     */
     public static function generateOrderNumber(): string
     {
         $prefix = 'ORD';
@@ -77,30 +96,45 @@ class Order extends Model
     }
 
     // =========================================================================
-    // RELATIONSHIPS
+    // RELACIE
     // =========================================================================
 
+    /**
+     * Objednavka patri pouzivatelovi.
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Objednavka ma viacero poloziek.
+     */
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
+    /**
+     * Objednavka ma viacero adries.
+     */
     public function addresses(): HasMany
     {
         return $this->hasMany(OrderAddress::class);
     }
 
+    /**
+     * Vrati dorucovaciu adresu objednavky.
+     */
     public function shippingAddress(): HasOne
     {
         return $this->hasOne(OrderAddress::class)
             ->where('type', OrderAddress::TYPE_SHIPPING);
     }
 
+    /**
+     * Vrati fakturacnu adresu objednavky.
+     */
     public function billingAddress(): HasOne
     {
         return $this->hasOne(OrderAddress::class)
@@ -108,39 +142,60 @@ class Order extends Model
     }
 
     // =========================================================================
-    // ACCESSORS
+    // ACCESSORY
     // =========================================================================
 
+    /**
+     * Vrati formatovanu celkovu sumu.
+     */
     public function getFormattedTotalAttribute(): string
     {
         return '€' . number_format((float) $this->total, 2);
     }
 
+    /**
+     * Vrati formatovanu cenu dopravy.
+     */
     public function getFormattedShippingCostAttribute(): string
     {
         return '€' . number_format((float) $this->shipping_cost, 2);
     }
 
+    /**
+     * Vrati formatovany medzisucet.
+     */
     public function getFormattedSubtotalAttribute(): string
     {
         return '€' . number_format((float) $this->subtotal, 2);
     }
 
+    /**
+     * Vrati textovu reprezentaciu statusu.
+     */
     public function getStatusTextAttribute(): string
     {
         return self::STATUSES[$this->status] ?? (string) $this->status;
     }
 
+    /**
+     * Vrati textovu reprezentaciu platobneho statusu.
+     */
     public function getPaymentStatusTextAttribute(): string
     {
         return self::PAYMENT_STATUSES[$this->payment_status] ?? (string) $this->payment_status;
     }
 
+    /**
+     * Vrati textovu reprezentaciu platobnej metody.
+     */
     public function getPaymentMethodTextAttribute(): string
     {
         return self::PAYMENT_METHODS[$this->payment_method] ?? (string) $this->payment_method;
     }
 
+    /**
+     * Vrati farbu statusu pre UI.
+     */
     public function getStatusColorAttribute(): string
     {
         return match ((string) $this->status) {

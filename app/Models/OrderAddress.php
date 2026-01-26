@@ -8,15 +8,23 @@ use App\Models\Concerns\HasAddressFormatting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Model adresy objednavky (snapshot).
+ * Relacia: Order (N:1)
+ */
 class OrderAddress extends Model
 {
     use HasAddressFormatting;
 
+    // Konstanty pre typy adries
     public const TYPE_SHIPPING = 'shipping';
     public const TYPE_BILLING  = 'billing';
 
     public const DEFAULT_COUNTRY = 'Slovensko';
 
+    /**
+     * Polia povolene pre hromadne priradenie.
+     */
     protected $fillable = [
         'order_id',
         'type',
@@ -34,14 +42,16 @@ class OrderAddress extends Model
         'ic_dph',
     ];
 
+    /**
+     * Adresa patri do objednavky.
+     */
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
     /**
-     * Vráti atribúty pre shipping/billing z checkout formu.
-     * (Nevytvára record – to spraví OrderService cez relationship.)
+     * Vytvori atributy adresy z checkout formulara.
      */
     public static function attributesFromCheckout(array $data, string $type): array
     {

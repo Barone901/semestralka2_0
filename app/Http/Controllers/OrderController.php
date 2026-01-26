@@ -11,13 +11,22 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+/**
+ * Controller pre spracu objednavok a checkout procesu.
+ */
 class OrderController extends Controller
 {
+    /**
+     * Injektuje sluzby pre objednavky a kosik.
+     */
     public function __construct(
         private OrderService $orderService,
         private CartService $cartService
     ) {}
 
+    /**
+     * Zobrazi checkout stranku s formularom pre dorucenie a fakturacne udaje.
+     */
     public function checkout(): View|RedirectResponse
     {
         $cart = $this->cartService->getCart();
@@ -28,7 +37,7 @@ class OrderController extends Controller
         }
 
         $user = Auth::user();
-        $shippingCost = 3.00; // COD fixed price
+        $shippingCost = 3.00;
 
         $defaultShippingAddress = null;
         $defaultBillingAddress = null;
@@ -63,6 +72,9 @@ class OrderController extends Controller
         ]);
     }
 
+    /**
+     * Spracuje a ulozi novu objednavku.
+     */
     public function store(CheckoutRequest $request): RedirectResponse
     {
         $validated = $request->validated();
@@ -77,6 +89,9 @@ class OrderController extends Controller
         return back()->with('error', $result['message'])->withInput();
     }
 
+    /**
+     * Zobrazi potvrdenie objednavky po uspesnom dokonceni.
+     */
     public function confirmation(string $orderNumber): View|RedirectResponse
     {
         $userId = Auth::id();
@@ -103,6 +118,9 @@ class OrderController extends Controller
         ]);
     }
 
+    /**
+     * Zobrazi zoznam objednavok prihlaseneho pouzivatela.
+     */
     public function index(): View
     {
         $orders = $this->orderService->getUserOrders();
@@ -112,6 +130,9 @@ class OrderController extends Controller
         ]);
     }
 
+    /**
+     * Zobrazi detail konkretnej objednavky.
+     */
     public function show(string $orderNumber): View|RedirectResponse
     {
         $order = $this->orderService->getOrderByNumber($orderNumber, Auth::id());
@@ -126,6 +147,9 @@ class OrderController extends Controller
         ]);
     }
 
+    /**
+     * Zrusi objednavku a vrati produkty na sklad.
+     */
     public function cancel(string $orderNumber): RedirectResponse
     {
         $order = $this->orderService->getOrderByNumber($orderNumber, Auth::id());

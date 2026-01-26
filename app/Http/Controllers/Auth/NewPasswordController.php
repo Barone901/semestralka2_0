@@ -15,14 +15,13 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+/**
+ * Controller pre nastavenie noveho hesla po resete.
+ */
 class NewPasswordController extends Controller
 {
-
     /**
-     * Nastaví nové heslo:
-     * - overí token + email + nové heslo
-     * - uloží nové heslo a vygeneruje nový remember_token
-     * - po úspechu presmeruje na login
+     * Spracuje nastavenie noveho hesla s overenim tokenu.
      */
     public function store(Request $request): RedirectResponse
     {

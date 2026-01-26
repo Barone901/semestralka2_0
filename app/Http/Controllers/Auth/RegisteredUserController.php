@@ -13,10 +13,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
+/**
+ * Controller pre registraciu novych pouzivatelov.
+ */
 class RegisteredUserController extends Controller
 {
     /**
-     * Zobrazí registračný formulár.
+     * Zobrazi registracny formular.
      */
     public function create(): View
     {
@@ -24,12 +27,7 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Spracuje registráciu:
-     * - validácia je v RegisterRequest
-     * - vytvorí usera
-     * - priradí rolu "customer" (Spatie)
-     * - prihlási usera
-     * - presmeruje na dashboard
+     * Spracuje registraciu, vytvori pouzivatela a priradi rolu customer.
      */
     public function store(RegisterRequest $request): RedirectResponse
     {

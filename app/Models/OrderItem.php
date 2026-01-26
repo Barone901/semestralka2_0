@@ -8,20 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * OrderItem Model
- *
- * Represents a single item in an order. Stores a snapshot of product data
- * at the time of purchase to preserve order integrity.
- *
- * Relations:
- * - Order (N:1) - Many items belong to one order
- * - Product (N:1) - Item references a product (for linking, not data)
+ * Model polozky objednavky so snapshotom produktovych dat.
+ * Relacie: Order (N:1), Product (N:1)
  */
 class OrderItem extends Model
 {
     /**
-     * Mass assignable attributes.
-     * Note: product_name, price stored as snapshot (not from relation).
+     * Polia povolene pre hromadne priradenie.
      */
     protected $fillable = [
         'order_id',
@@ -33,7 +26,7 @@ class OrderItem extends Model
     ];
 
     /**
-     * Attribute casting.
+     * Pretypovanie atributov.
      */
     protected $casts = [
         'price' => 'decimal:2',
@@ -42,12 +35,11 @@ class OrderItem extends Model
     ];
 
     // =========================================================================
-    // RELATIONSHIPS
+    // RELACIE
     // =========================================================================
 
     /**
-     * Item belongs to an order.
-     * Relation: N:1 (Many items belong to one order)
+     * Polozka patri do objednavky.
      */
     public function order(): BelongsTo
     {
@@ -55,9 +47,7 @@ class OrderItem extends Model
     }
 
     /**
-     * Item references a product (for navigation/display).
-     * Relation: N:1 (Many items can reference one product)
-     * Note: The actual product data is stored in this item as snapshot.
+     * Polozka referencuje produkt (data su ulozene ako snapshot).
      */
     public function product(): BelongsTo
     {
@@ -65,11 +55,11 @@ class OrderItem extends Model
     }
 
     // =========================================================================
-    // ACCESSORS
+    // ACCESSORY
     // =========================================================================
 
     /**
-     * Formatted unit price.
+     * Vrati formatovanu jednotkovu cenu.
      */
     public function getFormattedPriceAttribute(): string
     {
@@ -77,7 +67,7 @@ class OrderItem extends Model
     }
 
     /**
-     * Formatted line subtotal (price * quantity).
+     * Vrati formatovany medzisucet polozky.
      */
     public function getFormattedSubtotalAttribute(): string
     {

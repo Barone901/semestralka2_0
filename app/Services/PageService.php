@@ -6,10 +6,13 @@ use App\Models\Page;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Sluzba pre pracu s clankami a strankami.
+ */
 class PageService
 {
     /**
-     * Získa stránkovaný zoznam publikovaných stránok.
+     * Ziska strankovany zoznam publikovanych stranok.
      */
     public function getPublishedPages(int $perPage = 12): LengthAwarePaginator
     {
@@ -19,7 +22,7 @@ class PageService
     }
 
     /**
-     * Nájde publikovanú stránku podľa slug.
+     * Najde publikovanu stranku podla slug.
      */
     public function findBySlug(string $slug): ?Page
     {
@@ -29,7 +32,7 @@ class PageService
     }
 
     /**
-     * Získa súvisiace stránky.
+     * Ziska suvisiace stranky k danej stranke.
      */
     public function getRelatedPages(Page $page, int $limit = 3): Collection
     {
@@ -53,4 +56,3 @@ class PageService
         return $relatedPages;
     }
 }
-

@@ -5,10 +5,13 @@ namespace App\Services;
 use App\Models\Banner;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Sluzba pre pracu s bannermi.
+ */
 class BannerService
 {
     /**
-     * Získa aktívne bannery.
+     * Ziska aktivne bannery zoradene podla poradia.
      */
     public function getActiveBanners(): Collection
     {
@@ -18,4 +21,3 @@ class BannerService
             ->get();
     }
 }
-

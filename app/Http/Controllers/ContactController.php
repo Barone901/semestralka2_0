@@ -8,10 +8,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/**
+ * Controller pre kontaktny formular.
+ */
 class ContactController extends Controller
 {
     /**
-     * Zobrazí kontaktný formulár.
+     * Zobrazi kontaktny formular.
      */
     public function index(): View
     {
@@ -19,16 +22,7 @@ class ContactController extends Controller
     }
 
     /**
-     * Spracuje odoslanie kontaktného formulára.
-     *
-     * Tu teraz robíš iba:
-     * - validáciu
-     * - redirect so success hláškou
-     *
-     * Neskôr vieš doplniť:
-     * - odoslanie emailu (Mail::to(...)->send(...))
-     * - uloženie do DB
-     * - poslanie do CRM
+     * Spracuje odoslanie kontaktneho formulara s validaciou.
      */
     public function send(Request $request): RedirectResponse
     {
@@ -38,8 +32,6 @@ class ContactController extends Controller
             'subject' => 'required|string|max:255',
             'message' => 'required|string|min:10|max:5000',
         ]);
-
-        // $validated máš pripravené, aby si ho vedel použiť na email/DB.
 
         return redirect()->route('contact')
             ->with('success', 'Thank you for your message! We will get back to you soon.');

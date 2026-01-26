@@ -10,11 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+/**
+ * Controller pre spravu adries pouzivatela (dorucenie a fakturacia).
+ */
 class UserAddressController extends Controller
 {
     /**
-     * Zobrazí zoznam adries používateľa.
-     * (shipping + billing)
+     * Zobrazi zoznam vsetkych adries pouzivatela.
      */
     public function index(): View
     {
@@ -25,7 +27,6 @@ class UserAddressController extends Controller
             ->latest()
             ->get();
 
-        // Rozdelíme adresy podľa typu
         $shippingAddresses = $addresses->where('type', 'shipping');
         $billingAddresses = $addresses->where('type', 'billing');
 
@@ -37,8 +38,7 @@ class UserAddressController extends Controller
     }
 
     /**
-     * Zobrazí formulár na vytvorenie adresy.
-     * - type sa posiela cez query (?type=shipping alebo ?type=billing)
+     * Zobrazi formular pre vytvorenie novej adresy.
      */
     public function create(Request $request): View
     {
@@ -50,9 +50,7 @@ class UserAddressController extends Controller
     }
 
     /**
-     * Uloží novú adresu.
-     * - validuje vstupy
-     * - ak je označená ako default, zruší default pre ostatné adresy rovnakého typu
+     * Ulozi novu adresu a nastavi ako predvolenu ak je pozadovane.
      */
     public function store(Request $request): RedirectResponse
     {
@@ -75,20 +73,14 @@ class UserAddressController extends Controller
 
         $user = Auth::user();
 
-        // Ak je nová adresa default, zrušíme default u ostatných adries rovnakého typu
         if (!empty($validated['is_default'])) {
             $user->addresses()
                 ->where('type', $validated['type'])
                 ->update(['is_default' => false]);
         }
 
-        // Priradíme adresu k prihlásenému userovi
         $validated['user_id'] = $user->id;
-
-        // is_default chceme mať ako boolean
         $validated['is_default'] = !empty($validated['is_default']);
-
-        // Default krajina (podľa tvojho pôvodného kódu)
         $validated['country'] = $validated['country'] ?? 'United States';
 
         UserAddress::create($validated);
@@ -100,8 +92,7 @@ class UserAddressController extends Controller
     }
 
     /**
-     * Zobrazí formulár na úpravu adresy.
-     * - kontrolujeme, či adresa patrí prihlásenému userovi
+     * Zobrazi formular pre upravu existujucej adresy.
      */
     public function edit(UserAddress $address): View
     {
@@ -115,9 +106,7 @@ class UserAddressController extends Controller
     }
 
     /**
-     * Aktualizuje existujúcu adresu.
-     * - validuje vstupy
-     * - ak sa nastaví ako default, zruší default u ostatných adries rovnakého typu
+     * Aktualizuje existujucu adresu s validaciou vlastnictva.
      */
     public function update(Request $request, UserAddress $address): RedirectResponse
     {
@@ -144,7 +133,6 @@ class UserAddressController extends Controller
 
         $user = Auth::user();
 
-        // Ak sa adresa nastavuje ako default, zrušíme default u ostatných adries rovnakého typu
         if (!empty($validated['is_default'])) {
             $user->addresses()
                 ->where('type', $validated['type'])
@@ -163,8 +151,7 @@ class UserAddressController extends Controller
     }
 
     /**
-     * Vymaže adresu.
-     * - kontrolujeme vlastníctvo adresy
+     * Vymaze adresu po overeni vlastnictva.
      */
     public function destroy(UserAddress $address): RedirectResponse
     {
@@ -181,9 +168,7 @@ class UserAddressController extends Controller
     }
 
     /**
-     * Nastaví adresu ako default (podľa typu shipping/billing).
-     * - najprv zrušíme default na všetkých adresách daného typu
-     * - potom nastavíme túto ako default
+     * Nastavi adresu ako predvolenu pre dany typ.
      */
     public function setDefault(UserAddress $address): RedirectResponse
     {
@@ -193,12 +178,10 @@ class UserAddressController extends Controller
 
         $user = Auth::user();
 
-        // Zrušíme default u ostatných adries rovnakého typu
         $user->addresses()
             ->where('type', $address->type)
             ->update(['is_default' => false]);
 
-        // Nastavíme túto adresu ako default
         $address->update(['is_default' => true]);
 
         $typeText = $address->type === 'shipping' ? 'Shipping' : 'Billing';

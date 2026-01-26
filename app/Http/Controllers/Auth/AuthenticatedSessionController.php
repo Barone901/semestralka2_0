@@ -11,10 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
+/**
+ * Controller pre prihlasovanie a odhlasovanie pouzivatelov.
+ */
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Zobrazí prihlasovaciu stránku (login form).
+     * Zobrazi prihlasovaci formular.
      */
     public function create(): View
     {
@@ -22,10 +25,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Spracuje prihlásenie:
-     * - overí údaje (LoginRequest->authenticate())
-     * - zregeneruje session (ochrana proti session fixation)
-     * - presmeruje na stránku, ktorú user chcel (intended), inak na dashboard
+     * Spracuje prihlasenie a zregeneruje session pre bezpecnost.
      */
     public function store(LoginRequest $request): RedirectResponse
     {
@@ -36,10 +36,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * Odhlási používateľa:
-     * - logout
-     * - invalidácia session
-     * - nový CSRF token
+     * Odhlasi pouzivatela a zneplatni session.
      */
     public function destroy(Request $request): RedirectResponse
     {

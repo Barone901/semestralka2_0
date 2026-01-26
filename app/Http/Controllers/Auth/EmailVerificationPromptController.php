@@ -9,11 +9,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+/**
+ * Controller pre zobrazenie vyzvy na overenie emailu.
+ */
 class EmailVerificationPromptController extends Controller
 {
     /**
-     * Zobrazí stránku s výzvou na overenie emailu (verify-email),
-     * alebo ak je email už overený, presmeruje na dashboard.
+     * Zobrazi stranku s vyzvou na overenie emailu alebo presmeruje ak je overeny.
      */
     public function __invoke(Request $request): RedirectResponse|View
     {

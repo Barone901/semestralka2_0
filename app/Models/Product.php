@@ -10,18 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Product Model
- *
- * Represents a product in the shop.
- *
- * Relations:
- * - Category (N:1) - Product belongs to one category
- * - OrderItem (1:N) - Product has many order items (historical references)
+ * Model produktu v eshope.
+ * Relacie: Category (N:1), OrderItem (1:N)
  */
 class Product extends Model
 {
     /**
-     * Mass assignable attributes.
+     * Polia povolene pre hromadne priradenie.
      */
     protected $fillable = [
         'name',
@@ -34,7 +29,7 @@ class Product extends Model
     ];
 
     /**
-     * Attribute casting.
+     * Pretypovanie atributov.
      */
     protected $casts = [
         'price' => 'decimal:2',
@@ -42,7 +37,7 @@ class Product extends Model
     ];
 
     /**
-     * Route model binding uses slug.
+     * Route model binding pouziva slug.
      */
     public function getRouteKeyName(): string
     {
@@ -50,12 +45,12 @@ class Product extends Model
     }
 
     // =========================================================================
-    // RELATIONSHIPS
+    // RELACIE
     // =========================================================================
 
     /**
-     * Product belongs to a category.
-     * Relation: N:1 (Many products belong to one category)
+     * Produkt patri do kategorie.
+     * Relacia: N:1 (Viac produktov patri do jednej kategorie)
      */
     public function category(): BelongsTo
     {
@@ -63,8 +58,8 @@ class Product extends Model
     }
 
     /**
-     * Product has many order items (historical references).
-     * Relation: 1:N (One product referenced in many order items)
+     * Produkt ma viacero poloziek objednavok (historicke referencie).
+     * Relacia: 1:N (Jeden produkt je referencovany v mnohych polozkach objednavok)
      */
     public function orderItems(): HasMany
     {
@@ -76,7 +71,7 @@ class Product extends Model
     // =========================================================================
 
     /**
-     * Scope: Only products in stock.
+     * Scope: Iba produkty na sklade.
      */
     public function scopeInStock(Builder $query): Builder
     {
@@ -84,7 +79,7 @@ class Product extends Model
     }
 
     /**
-     * Scope: Search by name or description.
+     * Scope: Vyhladavanie podla nazvu alebo popisu.
      */
     public function scopeSearch(Builder $query, ?string $term): Builder
     {
@@ -101,11 +96,11 @@ class Product extends Model
     }
 
     // =========================================================================
-    // ACCESSORS
+    // ACCESSORY
     // =========================================================================
 
     /**
-     * Formatted price with currency.
+     * Vrati formatovanu cenu s menou.
      */
     public function getFormattedPriceAttribute(): string
     {
@@ -113,7 +108,7 @@ class Product extends Model
     }
 
     /**
-     * Check if product is in stock.
+     * Skontroluje ci je produkt na sklade.
      */
     public function getIsInStockAttribute(): bool
     {

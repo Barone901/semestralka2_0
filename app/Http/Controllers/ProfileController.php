@@ -10,23 +10,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
+/**
+ * Controller pre spravu profilu pouzivatela.
+ */
 class ProfileController extends Controller
 {
     /**
-     * Profil už nemá vlastný view.
-     * Keď niekto otvorí /profile, presmerujeme ho na /dashboard a skočíme na sekciu #profile.
+     * Presmeruje na dashboard s kotovov na sekciu profilu.
      */
     public function edit(Request $request): RedirectResponse
     {
         return redirect()->route('dashboard')->withFragment('profile');
-
     }
 
     /**
-     * Aktualizuje profil používateľa.
-     * - validácia je v ProfileUpdateRequest
-     * - ak sa zmenil email, vynulujeme email_verified_at (bude treba znova overiť email)
-     * - po uložení sa vrátime späť na dashboard do sekcie profilu
+     * Aktualizuje profil pouzivatela a resetuje verifikaciu emailu pri zmene.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
@@ -40,18 +38,13 @@ class ProfileController extends Controller
 
         $user->save();
 
-        // Breeze používa session('status') napr. 'profile-updated'
         return redirect()->route('dashboard')
             ->with('status', 'profile-updated')
             ->withFragment('profile');
     }
 
     /**
-     * Zmaže účet používateľa.
-     * - vyžaduje current_password (Breeze)
-     * - odhlási používateľa
-     * - vymaže usera
-     * - resetne session
+     * Zmaze ucet pouzivatela po overeni hesla.
      */
     public function destroy(Request $request): RedirectResponse
     {

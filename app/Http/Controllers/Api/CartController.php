@@ -10,15 +10,20 @@ use App\Services\CartService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * API Controller pre pracu s nakupnym kosikom.
+ */
 class CartController extends Controller
 {
+    /**
+     * Injektuje sluzbu pre kosik.
+     */
     public function __construct(
         private readonly CartService $cartService
     ) {}
 
     /**
-     * GET /api/cart
-     * Vráti aktuálny košík ako JSON (items, count, total, …).
+     * Vrati aktualny obsah kosika ako JSON.
      */
     public function index(): JsonResponse
     {
@@ -26,9 +31,7 @@ class CartController extends Controller
     }
 
     /**
-     * POST /api/cart/add
-     * Pridá produkt do košíka.
-     * Očakáva: product_id, quantity (voliteľné)
+     * Prida produkt do kosika s validaciou mnozstva a dostupnosti.
      */
     public function add(Request $request): JsonResponse
     {
@@ -42,7 +45,6 @@ class CartController extends Controller
 
         $result = $this->cartService->addProduct($product, $quantity);
 
-        // Ak služba vráti error (napr. nedostatok skladom), pošleme 422.
         if (!($result['success'] ?? false)) {
             return response()->json($result, 422);
         }
@@ -54,9 +56,7 @@ class CartController extends Controller
     }
 
     /**
-     * POST /api/cart/update
-     * Zmení množstvo položky v košíku.
-     * quantity = 0 znamená “zmaž položku” (ak to tak máš v CartService).
+     * Aktualizuje mnozstvo produktu v kosiku.
      */
     public function update(Request $request): JsonResponse
     {
@@ -70,7 +70,6 @@ class CartController extends Controller
             (int) $validated['quantity']
         );
 
-        // Keď položka neexistuje → 404, inak validačný problém → 422.
         if (!($result['success'] ?? false)) {
             $status = str_contains((string) ($result['message'] ?? ''), 'nie je') ? 404 : 422;
             return response()->json($result, $status);
@@ -83,8 +82,7 @@ class CartController extends Controller
     }
 
     /**
-     * POST /api/cart/remove
-     * Odstráni produkt z košíka.
+     * Odstrani produkt z kosika.
      */
     public function remove(Request $request): JsonResponse
     {
@@ -101,8 +99,7 @@ class CartController extends Controller
     }
 
     /**
-     * POST /api/cart/clear
-     * Vyprázdni celý košík.
+     * Vyprazdni cely kosik.
      */
     public function clear(): JsonResponse
     {

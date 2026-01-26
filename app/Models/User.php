@@ -14,13 +14,8 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * User Model
- *
- * Represents an authenticated user of the application.
- *
- * Relations:
- * - Order (1:N) - User has many orders
- * - UserAddress (1:N) - User has many saved addresses
+ * Model pouzivatela aplikacie.
+ * Relacie: Order (1:N), UserAddress (1:N)
  */
 class User extends Authenticatable implements FilamentUser
 {
@@ -28,7 +23,7 @@ class User extends Authenticatable implements FilamentUser
     use HasFactory, Notifiable, HasRoles;
 
     /**
-     * Mass assignable attributes.
+     * Polia povolene pre hromadne priradenie.
      */
     protected $fillable = [
         'name',
@@ -41,7 +36,7 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * Hidden from serialization (security).
+     * Polia skryte pri serializacii.
      */
     protected $hidden = [
         'password',
@@ -49,7 +44,7 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     /**
-     * Attribute casting.
+     * Pretypovanie atributov.
      */
     protected function casts(): array
     {
@@ -60,12 +55,11 @@ class User extends Authenticatable implements FilamentUser
     }
 
     // =========================================================================
-    // RELATIONSHIPS
+    // RELACIE
     // =========================================================================
 
     /**
-     * User has many orders.
-     * Relation: 1:N (One user has many orders)
+     * Pouzivatel ma viacero objednavok.
      */
     public function orders(): HasMany
     {
@@ -73,8 +67,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * User has many saved addresses.
-     * Relation: 1:N (One user has many addresses)
+     * Pouzivatel ma viacero ulozenych adries.
      */
     public function addresses(): HasMany
     {
@@ -82,11 +75,11 @@ class User extends Authenticatable implements FilamentUser
     }
 
     // =========================================================================
-    // ACCESSORS
+    // ACCESSORY
     // =========================================================================
 
     /**
-     * Full name (first + last, or fallback to username).
+     * Vrati cele meno (krstne + priezvisko alebo username).
      */
     public function getFullNameAttribute(): string
     {
@@ -98,7 +91,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * Default shipping address for the user.
+     * Vrati predvolenu dorucovaciu adresu.
      */
     public function getDefaultShippingAddressAttribute(): ?UserAddress
     {
@@ -107,7 +100,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * Default billing address for the user.
+     * Vrati predvolenu fakturacnu adresu.
      */
     public function getDefaultBillingAddressAttribute(): ?UserAddress
     {
@@ -116,11 +109,11 @@ class User extends Authenticatable implements FilamentUser
     }
 
     // =========================================================================
-    // FILAMENT & AUTHORIZATION
+    // FILAMENT A AUTORIZACIA
     // =========================================================================
 
     /**
-     * Determine if user can access Filament admin panel.
+     * Urci ci pouzivatel moze pristupit do admin panelu.
      */
     public function canAccessPanel(Panel $panel): bool
     {
@@ -128,7 +121,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * Check if user has admin role.
+     * Skontroluje ci ma pouzivatel rolu admin.
      */
     public function isAdmin(): bool
     {
@@ -136,7 +129,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * Check if user has employee role.
+     * Skontroluje ci ma pouzivatel rolu employee.
      */
     public function isEmployee(): bool
     {
@@ -144,7 +137,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * Check if user has designer role.
+     * Skontroluje ci ma pouzivatel rolu designer.
      */
     public function isDesigner(): bool
     {
@@ -152,7 +145,7 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
-     * Check if user has customer role.
+     * Skontroluje ci ma pouzivatel rolu customer.
      */
     public function isCustomer(): bool
     {

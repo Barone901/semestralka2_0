@@ -10,19 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Category Model
- *
- * Represents a product category with support for nested hierarchy.
- *
- * Relations:
- * - Category (N:1) - Category belongs to a parent category (self-referential)
- * - Category (1:N) - Category has many child categories (self-referential)
- * - Product (1:N) - Category has many products
+ * Model kategorie produktov s podporou hierarchie.
+ * Relacie: Category (N:1 self), Category (1:N self), Product (1:N)
  */
 class Category extends Model
 {
     /**
-     * Mass assignable attributes.
+     * Polia povolene pre hromadne priradenie.
      */
     protected $fillable = [
         'parent_id',
@@ -34,7 +28,7 @@ class Category extends Model
     ];
 
     /**
-     * Attribute casting.
+     * Pretypovanie atributov.
      */
     protected $casts = [
         'sort_order' => 'integer',
@@ -42,7 +36,7 @@ class Category extends Model
     ];
 
     /**
-     * Route model binding uses slug.
+     * Route model binding pouziva slug.
      */
     public function getRouteKeyName(): string
     {
@@ -50,12 +44,11 @@ class Category extends Model
     }
 
     // =========================================================================
-    // RELATIONSHIPS
+    // RELACIE
     // =========================================================================
 
     /**
-     * Category belongs to a parent category.
-     * Relation: N:1 (Many categories can have one parent - self-referential)
+     * Kategoria patri do rodricovskej kategorie.
      */
     public function parent(): BelongsTo
     {
@@ -63,8 +56,7 @@ class Category extends Model
     }
 
     /**
-     * Category has many child categories.
-     * Relation: 1:N (One category has many children - self-referential)
+     * Kategoria ma viacero detskych kategorii.
      */
     public function children(): HasMany
     {
@@ -72,8 +64,7 @@ class Category extends Model
     }
 
     /**
-     * Category has many products.
-     * Relation: 1:N (One category has many products)
+     * Kategoria ma viacero produktov.
      */
     public function products(): HasMany
     {
@@ -85,7 +76,7 @@ class Category extends Model
     // =========================================================================
 
     /**
-     * Scope: Only parent categories (no parent_id).
+     * Scope: Iba hlavne kategorie (bez parent_id).
      */
     public function scopeParents(Builder $query): Builder
     {
@@ -93,7 +84,7 @@ class Category extends Model
     }
 
     /**
-     * Scope: Order by sort_order.
+     * Scope: Zoradenie podla sort_order.
      */
     public function scopeOrdered(Builder $query): Builder
     {
@@ -101,11 +92,11 @@ class Category extends Model
     }
 
     // =========================================================================
-    // HELPERS
+    // POMOCNE METODY
     // =========================================================================
 
     /**
-     * Check if category has child categories.
+     * Skontroluje ci ma kategoria detske kategorie.
      */
     public function hasChildren(): bool
     {
@@ -113,7 +104,7 @@ class Category extends Model
     }
 
     /**
-     * Check if this is a parent category (no parent_id).
+     * Skontroluje ci je to hlavna kategoria.
      */
     public function isParent(): bool
     {
@@ -121,8 +112,7 @@ class Category extends Model
     }
 
     /**
-     * Get all category IDs including this one and all descendants (recursive).
-     * Useful for filtering products in category and subcategories.
+     * Vrati vsetky ID kategorie vratane vsetkych potomkov rekurzivne.
      *
      * @return list<int>
      */

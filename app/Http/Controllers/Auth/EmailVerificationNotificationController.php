@@ -8,10 +8,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
+/**
+ * Controller pre opakovane odoslanie verifikacneho emailu.
+ */
 class EmailVerificationNotificationController extends Controller
 {
     /**
-     * Pošle znova verifikačný email (ak ešte nie je email overený).
+     * Posle znova verifikacny email ak este nie je overeny.
      */
     public function store(Request $request): RedirectResponse
     {

@@ -10,12 +10,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
+/**
+ * Model stranky/clanku s podporou soft delete.
+ * Relacie: User (N:1), Banner (N:1)
+ */
 class Page extends Model
 {
     use SoftDeletes;
 
     /**
-     * Polia stránky, ktoré môžeš ukladať cez create/update.
+     * Polia povolene pre hromadne priradenie.
      */
     protected $fillable = [
         'title',
@@ -36,7 +40,7 @@ class Page extends Model
     ];
 
     /**
-     * Pretypovania.
+     * Pretypovanie atributov.
      */
     protected $casts = [
         'is_featured' => 'boolean',
@@ -45,15 +49,13 @@ class Page extends Model
         'published_at' => 'datetime',
     ];
 
-    /**
-     * Povolené statusy stránky.
-     */
+    // Konstanty pre statusy stranky
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PUBLISHED = 'published';
     public const STATUS_ARCHIVED = 'archived';
 
     /**
-     * Statusy + text do UI (napr. select).
+     * Vrati dostupne statusy pre UI.
      */
     public static function getStatuses(): array
     {
@@ -65,27 +67,19 @@ class Page extends Model
     }
 
     /**
-     * booted() = miesto, kde si vieš pridať model eventy (saving/creating/updating...).
-     *
-     * Tu riešime:
-     * 1) generovanie slugu z title,
-     * 2) a garantujeme unikátnosť slugu (ak už existuje, pridáme -1, -2, ...)
+     * Automaticke generovanie a unikatnost slugu pri ukladani.
      */
     protected static function booted(): void
     {
         static::saving(function (self $page) {
-            // Pri vytváraní: ak slug neexistuje, vygenerujeme z title.
             if (!$page->exists && empty($page->slug)) {
                 $page->slug = Str::slug((string) $page->title);
             }
 
-            // Pri update: ak sa zmenil title a slug si nezmenil ručne,
-            // aktualizujeme slug podľa nového title.
             if ($page->exists && $page->isDirty('title') && !$page->isDirty('slug')) {
                 $page->slug = Str::slug((string) $page->title);
             }
 
-            // Na záver vždy zabezpečíme, aby slug bol unikátny.
             if (!empty($page->slug)) {
                 $page->slug = static::makeUniqueSlug($page, (string) $page->slug);
             }
@@ -93,22 +87,18 @@ class Page extends Model
     }
 
     /**
-     * Urobí slug unikátny:
-     * ak existuje rovnaký slug, pridáme -1, -2, -3...
+     * Vytvori unikatny slug pridanim ciselneho suffixu.
      */
     private static function makeUniqueSlug(self $page, string $slug): string
     {
         $base = $slug;
         $i = 1;
 
-        // Query na kontrolu existencie rovnakého slugu.
-        // Pri update sa musíme vyhnúť tomu, aby si stránka našla sama seba.
         $query = static::query()->where('slug', $slug);
         if ($page->exists) {
             $query->whereKeyNot($page->getKey());
         }
 
-        // Kým slug existuje, skúšame ďalší variant.
         while ($query->exists()) {
             $slug = "{$base}-{$i}";
             $i++;
@@ -122,8 +112,12 @@ class Page extends Model
         return $slug;
     }
 
+    // =========================================================================
+    // RELACIE
+    // =========================================================================
+
     /**
-     * Stránka patrí autorovi (user).
+     * Stranka patri autorovi.
      */
     public function author(): BelongsTo
     {
@@ -131,16 +125,19 @@ class Page extends Model
     }
 
     /**
-     * Stránka môže mať banner.
+     * Stranka moze mat prideleny banner.
      */
     public function banner(): BelongsTo
     {
         return $this->belongsTo(Banner::class);
     }
 
+    // =========================================================================
+    // SCOPES
+    // =========================================================================
+
     /**
-     * Scope: iba publikované stránky.
-     * + ak published_at je v budúcnosti, ešte sa nezobrazí.
+     * Scope: Iba publikovane stranky s platnym published_at.
      */
     public function scopePublished(Builder $query): Builder
     {
@@ -152,7 +149,7 @@ class Page extends Model
     }
 
     /**
-     * Scope: koncepty.
+     * Scope: Iba koncepty.
      */
     public function scopeDraft(Builder $query): Builder
     {
@@ -160,7 +157,7 @@ class Page extends Model
     }
 
     /**
-     * Scope: zvýraznené stránky.
+     * Scope: Iba zvyraznene stranky.
      */
     public function scopeFeatured(Builder $query): Builder
     {
@@ -168,17 +165,19 @@ class Page extends Model
     }
 
     /**
-     * Scope: poradie pre výpis.
+     * Scope: Zoradenie podla sort_order a published_at.
      */
     public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('sort_order')->orderByDesc('published_at');
     }
 
+    // =========================================================================
+    // ACCESSORY
+    // =========================================================================
+
     /**
-     * Virtuálny atribút: vráti URL obrázka.
-     * - ak je to už http link, necháme ho
-     * - inak berieme storage path
+     * Vrati URL hlavneho obrazku stranky.
      */
     public function getFeaturedImageUrlAttribute(): ?string
     {
@@ -192,7 +191,7 @@ class Page extends Model
     }
 
     /**
-     * Pomocná metóda: je stránka publikovaná a "už nastal čas publikácie"?
+     * Skontroluje ci je stranka publikovana a viditelna.
      */
     public function isPublished(): bool
     {
@@ -201,8 +200,7 @@ class Page extends Model
     }
 
     /**
-     * Zvýši počítadlo zobrazení o 1.
-     * (Použi napr. keď niekto otvorí stránku.)
+     * Zvysi pocitadlo zobrazeni o 1.
      */
     public function incrementViews(): void
     {
@@ -210,7 +208,7 @@ class Page extends Model
     }
 
     /**
-     * Virtuálny atribút: URL tejto stránky.
+     * Vrati URL stranky.
      */
     public function getUrlAttribute(): string
     {

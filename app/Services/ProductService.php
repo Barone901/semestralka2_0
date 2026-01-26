@@ -6,10 +6,13 @@ use App\Models\Product;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
+/**
+ * Sluzba pre pracu s produktmi.
+ */
 class ProductService
 {
     /**
-     * Vyhľadávanie produktov pre API.
+     * Vyhlada produkty podla zadaneho vyrazu.
      */
     public function search(string $query, int $limit = 10): Collection
     {
@@ -24,7 +27,7 @@ class ProductService
     }
 
     /**
-     * Získa produkty s filtrovaním a stránkovaním.
+     * Ziska produkty s filtrovanim a strankovanim.
      */
     public function getProducts(?string $search = null, ?array $categoryIds = null, int $perPage = 12): LengthAwarePaginator
     {
@@ -44,7 +47,7 @@ class ProductService
     }
 
     /**
-     * Získa súvisiace produkty.
+     * Ziska suvisiace produkty z rovnakej kategorie.
      */
     public function getRelatedProducts(Product $product, int $limit = 4): Collection
     {
@@ -57,7 +60,7 @@ class ProductService
     }
 
     /**
-     * Formátuje produkt pre API response.
+     * Formatuje produkt pre API odpoved.
      */
     public function formatForApi(Product $product): array
     {
@@ -75,7 +78,7 @@ class ProductService
     }
 
     /**
-     * Formátuje produkt s detailmi pre API response.
+     * Formatuje produkt s detailmi pre API odpoved.
      */
     public function formatDetailForApi(Product $product): array
     {
@@ -99,7 +102,7 @@ class ProductService
     }
 
     /**
-     * Získa URL obrázku produktu.
+     * Ziska URL obrazku produktu.
      */
     private function getImageUrl(Product $product): ?string
     {
@@ -112,4 +115,3 @@ class ProductService
             : asset('storage/' . $product->image_url);
     }
 }
-

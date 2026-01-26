@@ -10,12 +10,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+/**
+ * Sluzba pre spravu objednavok.
+ */
 class OrderService
 {
+    /**
+     * Injektuje sluzbu pre kosik.
+     */
     public function __construct(
         protected CartService $cartService
     ) {}
 
+    /**
+     * Vytvori novu objednavku v transakcii s kontrolou skladu.
+     */
     public function createOrder(array $orderData): array
     {
         $cart = $this->cartService->getCart();
@@ -134,6 +143,9 @@ class OrderService
         }
     }
 
+    /**
+     * Ziska vsetky objednavky pouzivatela.
+     */
     public function getUserOrders(?int $userId = null)
     {
         $userId = $userId ?? Auth::id();
@@ -144,6 +156,9 @@ class OrderService
             ->get();
     }
 
+    /**
+     * Ziska objednavku podla ID.
+     */
     public function getOrder(int $orderId, ?int $userId = null): ?Order
     {
         $query = Order::with(['items.product', 'shippingAddress', 'billingAddress']);
@@ -155,6 +170,9 @@ class OrderService
         return $query->find($orderId);
     }
 
+    /**
+     * Ziska objednavku podla cisla objednavky.
+     */
     public function getOrderByNumber(string $orderNumber, ?int $userId = null): ?Order
     {
         $query = Order::with(['items.product', 'shippingAddress', 'billingAddress'])
@@ -167,6 +185,9 @@ class OrderService
         return $query->first();
     }
 
+    /**
+     * Zrusi objednavku a vrati produkty na sklad.
+     */
     public function cancelOrder(Order $order): array
     {
         if ($order->status === Order::STATUS_CANCELLED) {
@@ -216,6 +237,9 @@ class OrderService
         }
     }
 
+    /**
+     * Aktualizuje status objednavky.
+     */
     public function updateStatus(Order $order, string $status): array
     {
         if (!array_key_exists($status, Order::STATUSES)) {
