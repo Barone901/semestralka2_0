@@ -1,0 +1,67 @@
+Instalacia a spustenie projektu (Docker / Laravel Sail)
+==================================================
+
+Tento projekt bezi cez Laravel Sail (Docker) a pouziva Vite na frontend assety.
+
+Pozadavky
+----------
+- Docker, Ubuntu
+
+3) Vytvorenie a uprava .env
+---------------------------
+V korenovom priecinku projektu:
+
+cp .env.example .env
+
+Uprav .env podla potreby (DB nazov, hesla, pripadne porty).
+
+4) Spustenie kontajnerov (Sail)
+-------------------------------
+./vendor/bin/sail up -d
+
+5) Instalacia backend zavislosti (Composer v kontejnery)
+--------------------------------------------------------
+./vendor/bin/sail composer install
+
+6) Vygenerovanie APP_KEY
+------------------------
+./vendor/bin/sail artisan key:generate
+
+7) Migracie databazy
+--------------------
+./vendor/bin/sail artisan migrate
+
+8) Frontend build (Vite) – nutne kvoli manifest.json
+----------------------------------------------------
+Ak sa po otvoreni stranky zobrazi chyba:
+Vite manifest not found at: public/build/manifest.json
+
+sprav build assetov:
+
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run build
+
+9) Otvorenie aplikacie
+----------------------
+Po spusteni Sailu je aplikacia dostupna typicky na:
+http://localhost
+
+Uzitoce prikazy
+----------------
+Zastavenie kontajnerov:
+./vendor/bin/sail down
+
+Vycistenie cache:
+./vendor/bin/sail artisan config:clear
+./vendor/bin/sail artisan cache:clear
+./vendor/bin/sail artisan route:clear
+./vendor/bin/sail artisan view:clear
+
+Najcastejsie problemy
+---------------------
+- Chyba vendor/autoload.php:
+  ./vendor/bin/sail composer install
+
+- Vite manifest not found (public/build/manifest.json):
+  ./vendor/bin/sail npm install
+  ./vendor/bin/sail npm run build
