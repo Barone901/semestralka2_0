@@ -18,29 +18,29 @@ class BannersTable
         return $table
             ->columns([
                 ImageColumn::make('image_path')
-                    ->label('Obrázok')
+                    ->label('Image')
                     ->disk('public')
                     ->height(60)
                     ->width(100),
                 TextColumn::make('name')
-                    ->label('Názov')
+                    ->label('Title')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('link_url')
-                    ->label('Odkaz')
+                    ->label('Link')
                     ->limit(30)
                     ->url(fn ($record) => $record->link_url, shouldOpenInNewTab: true)
                     ->placeholder('—'),
                 IconColumn::make('is_active')
-                    ->label('Aktívny')
+                    ->label('Active')
                     ->boolean()
                     ->sortable(),
                 TextColumn::make('sort_order')
-                    ->label('Poradie')
+                    ->label('Order')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Vytvorené')
+                    ->label('Created')
                     ->dateTime('d.m.Y')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -48,10 +48,10 @@ class BannersTable
             ->defaultSort('sort_order', 'asc')
             ->filters([
                 TernaryFilter::make('is_active')
-                    ->label('Stav')
-                    ->trueLabel('Aktívne')
-                    ->falseLabel('Neaktívne')
-                    ->placeholder('Všetky'),
+                    ->label('Status')
+                    ->trueLabel('Active')
+                    ->falseLabel('Unactive')
+                    ->placeholder('All'),
             ])
             ->recordActions([
                 EditAction::make(),
