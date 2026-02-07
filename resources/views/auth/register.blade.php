@@ -1,7 +1,7 @@
-<x-layouts.default-layout title="Registrácia" type="guest">
+<x-layouts.default-layout title="Registration" type="guest">
     <div class="mb-6">
-        <h2 class="text-2xl font-bold text-center">Registrácia</h2>
-        <p class="text-center text-gray-600 text-sm mt-1">Vytvorte si nový účet</p>
+        <h2 class="text-2xl font-bold text-center">Registration</h2>
+        <p class="text-center text-gray-600 text-sm mt-1">Create your profile</p>
     </div>
 
     <form method="POST" action="{{ route('register') }}" data-validate>
@@ -9,7 +9,7 @@
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Meno')" />
+            <x-input-label for="name" :value="__('Name')" />
             <x-text-input
                 id="name"
                 class="block mt-1 w-full"
@@ -40,7 +40,7 @@
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Heslo')" />
+            <x-input-label for="password" :value="__('Password')" />
             <x-text-input
                 id="password"
                 class="block mt-1 w-full"
@@ -51,19 +51,19 @@
             />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
             <p class="mt-1 text-xs text-gray-500">
-                Heslo musí mať min. 8 znakov, veľké a malé písmeno a číslo.
+                The password must be at least 8 characters long and contain upper and lower case letters and numbers..
             </p>
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Potvrdenie hesla')" />
+            <x-input-label for="password_confirmation" :value="__('Confirm password')" />
             <x-text-input
                 id="password_confirmation"
                 class="block mt-1 w-full"
                 type="password"
                 name="password_confirmation"
-                data-rules="required|match:#password:Heslá sa nezhodujú."
+                data-rules="required|match:#password:The passwords do not match."
                 autocomplete="new-password"
             />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
@@ -71,15 +71,15 @@
 
         <div class="mt-6">
             <x-button variant="primary" class="w-full justify-center">
-                Zaregistrovať sa
+                Register
             </x-button>
         </div>
     </form>
 
     <div class="mt-6 text-center text-sm text-gray-600">
-        Už máte účet?
+        Already have an account?
         <a href="{{ route('login') }}" class="text-indigo-600 hover:underline font-medium">
-            Prihláste sa
+            Log in
         </a>
     </div>
 </x-layouts.default-layout>
