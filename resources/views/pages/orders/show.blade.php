@@ -167,7 +167,7 @@
 
                 @if($order->note)
                 {{-- Order Note --}}
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div class="card bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                     <h2 class="text-lg font-semibold text-gray-900 mb-4">Note</h2>
                     <p class="text-sm text-gray-600">{{ $order->note }}</p>
                 </div>

@@ -33,7 +33,7 @@
     - bg-gray-50 + text-gray-900 = zakladne farby
     - flex flex-col = layout do stlpca (header hore, footer dole)
 --}}
-<body class="theme-dark font-sans antialiased min-h-screen flex flex-col">
+<body class="font-sans antialiased min-h-screen flex flex-col">
 
 {{-- Header / navbar (spolocny pre vsetky stranky) --}}
 @include('components.layouts.partials.header')
@@ -47,7 +47,7 @@
         - uzsia karta, aby to vyzeralo ako formular
     --}}
     <div class="flex-grow flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+        <div class="card w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
             {{-- $slot = obsah konkretnej stranky --}}
             {{ $slot }}
         </div>
@@ -60,7 +60,7 @@
         - moze mat volitelny $header nad obsahom
     --}}
     @isset($header)
-        <header class="bg-white shadow">
+        <header class="card bg-white shadow">
             {{--
                 Wrapper sirky (sirsi layout):
                 - max-w-screen-2xl = vacsia max sirka stranky

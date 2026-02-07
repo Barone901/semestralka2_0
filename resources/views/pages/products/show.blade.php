@@ -4,7 +4,7 @@
         <div class="grid gap-8 lg:grid-cols-2">
 
             {{-- Image --}}
-            <div class="overflow-hidden rounded-2xl border bg-white">
+            <div class="card overflow-hidden rounded-2xl border bg-white">
 
                     @if($product->image_url)
                         <img

@@ -11,7 +11,7 @@
         <div class="flex flex-col lg:flex-row gap-8">
             {{-- Sidebar - Filters --}}
             <aside class="w-full lg:w-64 flex-shrink-0">
-                <div class="bg-white rounded-xl border p-4 sticky top-24">
+                <div class="card bg-white rounded-xl border p-4 sticky top-24">
                     <h3 class="font-semibold mb-4">Filters</h3>
 
                     {{-- Search --}}
@@ -138,7 +138,7 @@
                         {{ $products->links() }}
                     </div>
                 @else
-                    <div class="text-center py-16 bg-white rounded-xl border">
+                    <div class="card text-center py-16 bg-white rounded-xl border">
                         <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" stroke="currentColor" viewBox="0 0 24 24">
                             <path
                                 stroke-linecap="round"

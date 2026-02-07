@@ -15,7 +15,7 @@
 
         {{-- Order Details --}}
         <div class="max-w-3xl mx-auto">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 {{-- Order Header --}}
                 <div class="bg-indigo-50 px-6 py-4 border-b border-indigo-100">
                     <div class="flex flex-wrap items-center justify-between gap-4">

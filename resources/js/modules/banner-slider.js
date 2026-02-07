@@ -129,7 +129,7 @@ export default class BannerSlider {
         const translateX = -this.currentIndex * 100;
         this.slidesContainer.style.transform = `translateX(${translateX}%)`;
 
-        // Update dots (use slider-scoped classes so global dark theme CSS can't break them)
+        // Update dots (use slider-scoped classes so global dark theme CSS cant break them)
         this.dots.forEach((dot, index) => {
             const isActive = index === this.currentIndex;
 
@@ -175,6 +175,6 @@ export default class BannerSlider {
 // Auto-initialize
 document.addEventListener('DOMContentLoaded', () => {
     window.bannerSlider = new BannerSlider({
-        interval: 5000 // 5 sekúnd medzi slidmi
+        interval: 5000 // 5 sec. between slides
     });
 });

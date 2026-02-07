@@ -51,7 +51,7 @@
                 @else
                     <div class="space-y-4">
                         @foreach($shippingAddresses as $address)
-                            <div class="bg-white rounded-xl shadow-sm border {{ $address->is_default ? 'border-indigo-500 ring-2 ring-indigo-100' : 'border-gray-200' }} p-5">
+                            <div class="card bg-white rounded-xl shadow-sm border {{ $address->is_default ? 'border-indigo-500 ring-2 ring-indigo-100' : 'border-gray-200' }} p-5">
                                 @if($address->is_default)
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 mb-3">
                                         <svg class="w-3 h-3 mr-1" viewBox="0 0 20 20">
@@ -130,7 +130,7 @@
                 @else
                     <div class="space-y-4">
                         @foreach($billingAddresses as $address)
-                            <div class="bg-white rounded-xl shadow-sm border {{ $address->is_default ? 'border-green-500 ring-2 ring-green-100' : 'border-gray-200' }} p-5">
+                            <div class="card bg-white rounded-xl shadow-sm border {{ $address->is_default ? 'border-green-500 ring-2 ring-green-100' : 'border-gray-200' }} p-5">
                                 @if($address->is_default)
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-3">
                                         <svg class="w-3 h-3 mr-1" viewBox="0 0 20 20">

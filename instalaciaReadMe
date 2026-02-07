@@ -65,3 +65,6 @@ Najcastejsie problemy
 - Vite manifest not found (public/build/manifest.json):
   ./vendor/bin/sail npm install
   ./vendor/bin/sail npm run build
+
+- Permissions error
+    compose exec laravel.test chmod -R 775 storage bootstrap/cache

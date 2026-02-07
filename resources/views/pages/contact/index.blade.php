@@ -7,7 +7,7 @@
         <div class="grid lg:grid-cols-3 gap-8">
             {{-- Contact Form --}}
             <div class="lg:col-span-2">
-                <div class="bg-white rounded-xl border p-6 lg:p-8">
+                <div class="card bg-white rounded-xl border p-6 lg:p-8">
                     @if(session('success'))
                         <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                             <div class="flex items-center gap-3">
@@ -147,7 +147,7 @@
                 </div>
 
                 {{-- Business Hours --}}
-                <div class="bg-white rounded-xl border p-6">
+                <div class="card bg-white rounded-xl border p-6">
                     <h3 class="font-semibold text-lg mb-4">Business Hours</h3>
 
                     <div class="space-y-2 text-sm">

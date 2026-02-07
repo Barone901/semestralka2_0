@@ -25,7 +25,7 @@
 
         <a
             href="{{ route('products.index', ['category' => $category->slug]) }}"
-            class="group rounded-2xl border bg-white overflow-hidden hover:shadow-md transition-shadow"
+            class="card group rounded-2xl border bg-white overflow-hidden hover:shadow-md transition-shadow"
         >
             <div class="aspect-[4/3] bg-gray-50 overflow-hidden">
                 @if($url)

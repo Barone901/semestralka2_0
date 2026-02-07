@@ -145,7 +145,7 @@
                     </div>
 
                     {{-- BILLING ADDRESS --}}
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div class="card bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                         <div class="flex items-center justify-between mb-6">
                             <h2 class="text-lg font-semibold text-gray-900 flex items-center">
                                 <svg class="w-6 h-6 mr-2 text-green-600" stroke="currentColor" viewBox="0 0 24 24">
@@ -342,7 +342,7 @@
 
                 {{-- Order Summary --}}
                 <div class="lg:col-span-1">
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-24">
+                    <div class="card bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-24">
                         <h2 class="text-lg font-semibold text-gray-900 mb-6">Order Summary</h2>
 
                         {{-- Cart Items --}}

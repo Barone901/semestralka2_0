@@ -76,7 +76,7 @@
 
         <!-- Excerpt -->
         @if($page->excerpt)
-            <div class="mb-8 p-6 bg-indigo-50 rounded-lg border-l-4 border-indigo-500">
+            <div class="card mb-8 p-6 bg-indigo-50 rounded-lg border-l-4 border-indigo-500">
                 <p class="text-lg text-indigo-900 italic">{{ $page->excerpt }}</p>
             </div>
         @endif
@@ -130,7 +130,7 @@
                 <h3 class="text-2xl font-bold text-gray-900 mb-6">Súvisiace články</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     @foreach($relatedPages as $related)
-                        <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                        <article class="card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                             @if($related->featured_image)
                                 <a href="{{ route('pages.show', $related->slug) }}">
                                     <img

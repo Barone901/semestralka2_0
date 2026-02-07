@@ -16,6 +16,7 @@ require __DIR__ . '/auth.php';
 
 // WEB
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::view('/about', 'pages.about.index')->name('about');
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/category/{category:slug}', [CategoryController::class, 'show'])->name('category.show');

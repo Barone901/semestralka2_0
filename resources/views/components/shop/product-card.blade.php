@@ -22,7 +22,7 @@
 </a>
 @else
 {{-- Full variant --}}
-<div class="group overflow-hidden rounded-2xl border bg-white">
+<div class="product-card group overflow-hidden rounded-2xl border bg-white">
     <a href="{{ route('product.show', $product) }}" class="block">
         <div class="aspect-[4/3] bg-gray-100 relative overflow-hidden">
             @if($product->image_url)

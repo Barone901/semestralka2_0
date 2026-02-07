@@ -62,7 +62,7 @@
                         <a href="{{ route('home') }}" class="hover:opacity-90">Home</a>
                         <a href="{{ route('products.index') }}" class="hover:opacity-90">Products</a>
                         <a href="{{ route('pages.index') }}" class="hover:opacity-90">Articles</a>
-                        <a href="{{ route('home') }}" class="hover:opacity-90">About us</a>
+                        <a href="{{ route('about') }}" class="hover:opacity-90">About us</a>
                         <a href="{{ route('contact') }}" class="hover:opacity-90">Contact</a>
                     </nav>
 

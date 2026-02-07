@@ -7,7 +7,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 /**
- * Sluzba pre pracu s produktmi.
+ * Sluzba pre pracu s produktami.
  */
 class ProductService
 {

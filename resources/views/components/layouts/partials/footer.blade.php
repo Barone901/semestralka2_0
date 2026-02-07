@@ -11,7 +11,7 @@
             <div>
                 <div class="font-semibold text-gray-900">Orders</div>
                 <ul class="mt-2 space-y-2">
-                    <li><a class="hover:text-black" href="#">Products</a></li>
+                    <li><a class="hover:text-black" href="{{ route('products.index') }}">Products</a></li>
                     <li><a class="hover:text-black" href="#">How it works</a></li>
                     <li><a class="hover:text-black" href="#">Contact</a></li>
                 </ul>
@@ -20,8 +20,8 @@
             <div>
                 <div class="font-semibold text-gray-900">About Us</div>
                 <ul class="mt-2 space-y-2">
-                    <li>Email: info@eshop.test</li>
-                    <li>Phone: +1 555 000 000</li>
+                    <li>Email: info@triumf.sk</li>
+                    <li>Phone: +421 912 345 678</li>
                 </ul>
             </div>
         </div>

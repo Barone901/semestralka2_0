@@ -15,7 +15,7 @@
             @endphp
 
             {{-- Welcome Section --}}
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+            <div class="card bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900">
                     <h3 class="text-lg font-semibold mb-2">Welcome, {{ $user->full_name }}!</h3>
                     <p class="text-gray-600">Here you will find an overview of your orders, addresses, and account settings.</p>
@@ -24,7 +24,7 @@
 
             {{-- Quick Actions --}}
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-                <a href="{{ route('orders.index') }}" class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow p-6 flex items-center gap-4">
+                <a href="{{ route('orders.index') }}" class="card bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow p-6 flex items-center gap-4">
                     <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
                         <svg class="w-6 h-6 text-indigo-600" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -37,7 +37,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('addresses.index') }}" class="bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow p-6 flex items-center gap-4">
+                <a href="{{ route('addresses.index') }}" class="card bg-white overflow-hidden shadow-sm sm:rounded-lg hover:shadow-md transition-shadow p-6 flex items-center gap-4">
                     <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
                         <svg class="w-6 h-6 text-purple-600" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -57,7 +57,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                <div class="lg:col-span-2 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="lg:col-span-2 card bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-6">
                             <h3 class="text-lg font-semibold text-gray-900">Latest orders</h3>
@@ -130,7 +130,7 @@
 
                 {{-- Pravý stĺpec: osobné info + adresy --}}
                 <div class="space-y-6">
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <div class="card bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900">Personal data</h3>
                             <a href="#profile" class="text-sm text-indigo-600 hover:text-indigo-800">Edit</a>
@@ -144,7 +144,7 @@
                     </div>
 
                     {{-- Default shipping --}}
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <div class="card bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900">Shipping address</h3>
                             <a href="{{ route('addresses.index') }}" class="text-sm text-indigo-600 hover:text-indigo-800">Edit</a>
@@ -166,7 +166,7 @@
                     </div>
 
                     {{-- Default billing --}}
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <div class="card bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900">Billing address</h3>
                             <a href="{{ route('addresses.index') }}" class="text-sm text-indigo-600 hover:text-indigo-800">Edit</a>
@@ -197,19 +197,19 @@
                 <h3 class="text-xl font-semibold text-gray-900 mb-4">Profile settings</h3>
 
                 <div class="space-y-6">
-                    <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="card p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <div class="max-w-xl">
                             @include('profile.partials.update-profile-information-form')
                         </div>
                     </div>
 
-                    <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="card p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <div class="max-w-xl">
                             @include('profile.partials.update-password-form')
                         </div>
                     </div>
 
-                    <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="card p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <div class="max-w-xl">
                             @include('profile.partials.delete-user-form')
                         </div>

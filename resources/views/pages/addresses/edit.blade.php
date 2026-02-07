@@ -9,7 +9,7 @@
         />
 
         <div class="max-w-2xl mx-auto">
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <div class="card bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <form action="{{ route('addresses.update', $address) }}" method="POST">
                     @csrf
                     @method('PUT')

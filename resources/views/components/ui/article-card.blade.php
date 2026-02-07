@@ -1,6 +1,6 @@
 @props(['page'])
 
-<article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+<article class="card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
     @if($page->featured_image)
         <a href="{{ route('pages.show', $page->slug) }}">
             <img
